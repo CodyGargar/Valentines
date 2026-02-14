@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -31,6 +31,20 @@ export function ValentineCardPdf({
   maxWidth = 900,
   maxHeight = 900,
 }: ValentineCardPdfProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(widthProp ?? null);
+
+  useEffect(() => {
+    if (widthProp != null || fitViewport) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => setContainerWidth(el.clientWidth || 360);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [widthProp, fitViewport]);
+
   const [fitSize, setFitSize] = useState<{ w: number; h: number } | null>(
     widthProp != null ? { w: widthProp, h: Math.round((widthProp / 420) * 520) } : null
   );
@@ -45,13 +59,16 @@ export function ValentineCardPdf({
     }
   };
 
-  const pageWidth = fitViewport ? (fitSize?.w ?? widthProp ?? 420) : (widthProp ?? 420);
+  const pageWidth = fitViewport
+    ? (fitSize?.w ?? widthProp ?? 420)
+    : (widthProp ?? containerWidth ?? 360);
   const containerHeight = fitViewport && fitSize ? fitSize.h : Math.round((pageWidth / 420) * 520);
 
   return (
     <div
-      className="flex min-w-0 items-center justify-center"
-      style={{ minHeight: containerHeight, width: pageWidth }}
+      ref={containerRef}
+      className="flex w-full min-w-0 max-w-full items-center justify-center"
+      style={{ minHeight: containerHeight, width: widthProp ?? "100%" }}
     >
       <Document
         file={pdfUrl}

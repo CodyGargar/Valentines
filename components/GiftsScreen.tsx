@@ -152,16 +152,13 @@ export function GiftsScreen() {
               {content.gifts.letter.prompt}
             </p>
             <div className="mt-4 flex flex-col items-center gap-4">
-              <div
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-romantic-blush/50 bg-white p-2"
-                style={{ minHeight: 540 }}
-              >
+              <div className="flex w-full max-w-full items-center justify-center gap-2 rounded-xl border border-romantic-blush/50 bg-white p-2 min-h-[min(540px,75vh)]">
                 <button
                   type="button"
                   onClick={goToPrevLetterPage}
                   disabled={letterPage <= 1}
                   aria-label="Previous part"
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-romantic-deep/90 text-white shadow-md transition hover:bg-romantic-deep disabled:opacity-40 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2"
+                  className="flex h-10 w-10 shrink-0 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-romantic-deep/90 text-white shadow-md transition hover:bg-romantic-deep disabled:opacity-40 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="m15 18-6-6 6-6" />
@@ -170,7 +167,7 @@ export function GiftsScreen() {
                 <button
                   type="button"
                   onClick={() => setLetterLightboxOpen(true)}
-                  className="flex min-h-[516px] flex-1 justify-center focus:outline-none focus:ring-2 focus:ring-romantic-deep/30 focus:ring-offset-2 rounded-lg overflow-hidden bg-transparent cursor-pointer"
+                  className="flex min-h-[70vh] flex-1 min-w-0 justify-center sm:min-h-[500px] focus:outline-none focus:ring-2 focus:ring-romantic-deep/30 focus:ring-offset-2 rounded-lg overflow-hidden bg-transparent cursor-pointer"
                   aria-label="View full size"
                 >
                   <ValentineCardPdf
@@ -184,7 +181,7 @@ export function GiftsScreen() {
                   onClick={advanceLetterPage}
                   disabled={isLastLetterPage}
                   aria-label="Next part"
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-romantic-deep/90 text-white shadow-md transition hover:bg-romantic-deep disabled:opacity-40 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2"
+                  className="flex h-10 w-10 shrink-0 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-romantic-deep/90 text-white shadow-md transition hover:bg-romantic-deep disabled:opacity-40 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="m9 18 6-6-6-6" />

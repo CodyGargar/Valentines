@@ -100,42 +100,42 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
         <AnimatePresence>
           {lightboxOpen && (
             <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+              className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/90 p-4 pt-16"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setLightboxOpen(false)}
             >
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxOpen(false);
+                }}
+                className="fixed top-4 right-4 z-[60] flex h-10 w-10 items-center justify-center rounded-full bg-romantic-deep text-white shadow-lg transition hover:bg-romantic-deep/80 focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2 focus:ring-offset-transparent"
+                aria-label="Close"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
               <div
-                className="relative flex max-h-[90vh] max-w-[90vw] items-center justify-center"
+                className="flex min-h-0 flex-1 items-center justify-center"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setLightboxOpen(false);
-                  }}
-                  className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-romantic-deep text-white shadow-lg transition hover:bg-romantic-deep/80 focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2 focus:ring-offset-transparent"
-                  aria-label="Close"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden
-                  >
-                    <path d="M18 6 6 18" />
-                    <path d="m6 6 12 12" />
-                  </svg>
-                </button>
                 {(() => {
                   const lightboxSrc = isHeic(question.imageSrc)
                     ? getCached(question.imageSrc)
@@ -151,7 +151,7 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
                     <img
                       src={lightboxSrc}
                       alt={question.imageAlt}
-                      className="max-h-[90vh] max-w-[90vw] w-auto h-auto object-contain"
+                      className="max-h-[85vh] max-w-[90vw] w-auto h-auto object-contain"
                       draggable={false}
                     />
                   );
