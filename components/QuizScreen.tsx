@@ -124,7 +124,7 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
                 </svg>
               </button>
               <motion.div
-                className="fixed inset-0 z-[100] flex items-start justify-center overflow-auto bg-black/90 px-4 pb-4 pt-16"
+                className="fixed inset-0 z-[100] flex flex-col items-center overflow-y-auto overflow-x-hidden bg-black/90 px-4 pb-8 pt-16"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -132,7 +132,7 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
                 onClick={() => setLightboxOpen(false)}
               >
                 <div
-                  className="flex min-h-full min-w-0 flex-1 items-center justify-center py-4"
+                  className="flex w-full max-w-[90vw] flex-1 justify-center pt-0"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {(() => {
@@ -150,7 +150,7 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
                       <img
                         src={lightboxSrc}
                         alt={question.imageAlt}
-                        className="max-h-[calc(100vh-6rem)] max-w-[90vw] w-auto h-auto object-contain"
+                        className="max-h-[calc(100vh-5rem)] w-auto max-w-full object-contain object-top"
                         draggable={false}
                       />
                     );
