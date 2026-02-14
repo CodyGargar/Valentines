@@ -1,5 +1,6 @@
 "use client";
 
+import { createPortal } from "react-dom";
 import { QuizImage } from "./QuizImage";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo, useEffect } from "react";
@@ -98,28 +99,18 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
         </div>
 
         <AnimatePresence>
-          {lightboxOpen && (
-            <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/90 p-4 pt-16"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setLightboxOpen(false)}
-            >
+          {lightboxOpen && typeof document !== "undefined" && createPortal(
+            <>
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setLightboxOpen(false);
-                }}
-                className="fixed top-4 right-4 z-[60] flex h-10 w-10 items-center justify-center rounded-full bg-romantic-deep text-white shadow-lg transition hover:bg-romantic-deep/80 focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2 focus:ring-offset-transparent"
+                onClick={() => setLightboxOpen(false)}
+                className="fixed right-4 top-4 z-[110] flex h-12 w-12 items-center justify-center rounded-full bg-romantic-deep text-white shadow-lg transition hover:bg-romantic-deep/80 focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2 focus:ring-offset-transparent"
                 aria-label="Close"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
+                  width="24"
+                  height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -132,32 +123,42 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
                   <path d="m6 6 12 12" />
                 </svg>
               </button>
-              <div
-                className="flex min-h-0 flex-1 items-center justify-center"
-                onClick={(e) => e.stopPropagation()}
+              <motion.div
+                className="fixed inset-0 z-[100] flex items-start justify-center overflow-auto bg-black/90 px-4 pb-4 pt-16"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                onClick={() => setLightboxOpen(false)}
               >
-                {(() => {
-                  const lightboxSrc = isHeic(question.imageSrc)
-                    ? getCached(question.imageSrc)
-                    : question.imageSrc;
-                  if (!lightboxSrc) {
+                <div
+                  className="flex min-h-full min-w-0 flex-1 items-center justify-center py-4"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {(() => {
+                    const lightboxSrc = isHeic(question.imageSrc)
+                      ? getCached(question.imageSrc)
+                      : question.imageSrc;
+                    if (!lightboxSrc) {
+                      return (
+                        <div className="flex h-64 w-64 items-center justify-center rounded-2xl bg-white/10 font-body text-sm text-white/80">
+                          Loading…
+                        </div>
+                      );
+                    }
                     return (
-                      <div className="flex h-64 w-64 items-center justify-center rounded-2xl bg-white/10 font-body text-sm text-white/80">
-                        Loading…
-                      </div>
+                      <img
+                        src={lightboxSrc}
+                        alt={question.imageAlt}
+                        className="max-h-[calc(100vh-6rem)] max-w-[90vw] w-auto h-auto object-contain"
+                        draggable={false}
+                      />
                     );
-                  }
-                  return (
-                    <img
-                      src={lightboxSrc}
-                      alt={question.imageAlt}
-                      className="max-h-[85vh] max-w-[90vw] w-auto h-auto object-contain"
-                      draggable={false}
-                    />
-                  );
-                })()}
-              </div>
-            </motion.div>
+                  })()}
+                </div>
+              </motion.div>
+            </>,
+            document.body
           )}
         </AnimatePresence>
 
