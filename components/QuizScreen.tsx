@@ -124,7 +124,7 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
                 </svg>
               </button>
               <motion.div
-                className="fixed inset-0 z-[100] flex flex-col items-center overflow-y-auto overflow-x-hidden bg-black/90 px-4 pb-8 pt-16"
+                className="fixed inset-0 z-[100] flex flex-col items-start overflow-y-auto overflow-x-hidden bg-black/90 px-4 pb-8 pt-16"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -132,7 +132,7 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
                 onClick={() => setLightboxOpen(false)}
               >
                 <div
-                  className="flex w-full max-w-[90vw] flex-1 justify-center pt-0"
+                  className="flex w-full max-w-[90vw] justify-center pt-0"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {(() => {
