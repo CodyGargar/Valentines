@@ -98,69 +98,68 @@ export function QuizScreen({ onDone }: QuizScreenProps) {
           </p>
         </div>
 
-        <AnimatePresence>
-          {lightboxOpen && typeof document !== "undefined" && createPortal(
-            <>
-              <button
-                type="button"
-                onClick={() => setLightboxOpen(false)}
-                className="fixed right-4 top-4 z-[110] flex h-12 w-12 items-center justify-center rounded-full bg-romantic-deep text-white shadow-lg transition hover:bg-romantic-deep/80 focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2 focus:ring-offset-transparent"
-                aria-label="Close"
+        {lightboxOpen && typeof document !== "undefined" && createPortal(
+          <div
+            className="fixed inset-0 z-[9999] flex flex-col bg-black/92"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Photo full size"
+          >
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(false)}
+              className="absolute right-4 top-4 z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-romantic-deep text-white shadow-lg transition hover:bg-romantic-deep/80 focus:outline-none focus:ring-2 focus:ring-romantic-deep/50 focus:ring-offset-2 focus:ring-offset-transparent"
+              aria-label="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="m6 6 12 12" />
-                </svg>
-              </button>
-              <motion.div
-                className="fixed inset-0 z-[100] flex flex-col items-start overflow-y-auto overflow-x-hidden bg-black/90 px-4 pb-8 pt-16"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                onClick={() => setLightboxOpen(false)}
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+            <div
+              className="flex min-h-0 flex-1 flex-col items-start overflow-y-auto overflow-x-hidden px-4 pb-8 pt-16"
+              onClick={() => setLightboxOpen(false)}
+            >
+              <div
+                className="flex w-full max-w-[90vw] justify-center pt-0"
+                onClick={(e) => e.stopPropagation()}
               >
-                <div
-                  className="flex w-full max-w-[90vw] justify-center pt-0"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {(() => {
-                    const lightboxSrc = isHeic(question.imageSrc)
-                      ? getCached(question.imageSrc)
-                      : question.imageSrc;
-                    if (!lightboxSrc) {
-                      return (
-                        <div className="flex h-64 w-64 items-center justify-center rounded-2xl bg-white/10 font-body text-sm text-white/80">
-                          Loading…
-                        </div>
-                      );
-                    }
+                {(() => {
+                  const lightboxSrc = isHeic(question.imageSrc)
+                    ? getCached(question.imageSrc)
+                    : question.imageSrc;
+                  if (!lightboxSrc) {
                     return (
-                      <img
-                        src={lightboxSrc}
-                        alt={question.imageAlt}
-                        className="max-h-[calc(100vh-5rem)] w-auto max-w-full object-contain object-top"
-                        draggable={false}
-                      />
+                      <div className="flex h-64 w-64 items-center justify-center rounded-2xl bg-white/10 font-body text-sm text-white/80">
+                        Loading…
+                      </div>
                     );
-                  })()}
-                </div>
-              </motion.div>
-            </>,
-            document.body
-          )}
-        </AnimatePresence>
+                  }
+                  return (
+                    <img
+                      src={lightboxSrc}
+                      alt={question.imageAlt}
+                      className="max-h-[calc(100vh-5rem)] w-auto max-w-full object-contain object-top"
+                      draggable={false}
+                    />
+                  );
+                })()}
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
 
         <div className="mt-6 grid gap-3">
           {question.choices.map((choice, choiceIndex) => {
